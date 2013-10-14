@@ -1,1 +1,172 @@
-Go-Draw
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Go-Draw.js: a simple canvas based drawing app that you can integrate easily on your website.</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+
+		<link rel="stylesheet" href="prism.css">
+		<link rel="stylesheet" href="website.css">
+
+    <!-- added for GoInstant -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+    <script src="https://cdn.goinstant.net/widgets/user-list/latest/user-list.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.goinstant.net/widgets/user-list/latest/user-list.css" />>
+    <script type="text/javascript">
+    </script>
+
+    <!-- end of GoInstant -->
+
+
+		<link rel="stylesheet" href="css/drawingboard.css">
+
+		<style>
+		/*
+		* drawingboards styles: set the board dimensions you want with CSS
+		*/
+
+		.board {
+			margin: 0 auto;
+			width: 300px;
+			height: 300px;
+		}
+
+		#default-board {
+			width: 700px;
+			height: 400px;
+		}
+
+		#custom-board-2 {
+			width: 550px;
+			height: 300px;
+		}
+
+		#title-board {
+			width: 600px;
+			height: 270px;
+		}
+		/* custom board styles for the title? no problem*/
+		#title-board .drawing-board-canvas-wrapper {
+			border: none;
+			margin: 0;
+		}
+		</style>
+	</head>
+	<body onload="onLoad()">
+		<span id="forkongithub"><a href="https://github.com/Leimi/drawingboard.js">Fork me on GitHub!</a></span>
+
+		<noscript>JavaScript is required :(</noscript>
+
+		<div class="header">
+			<div class="board" id="title-board"></div>
+		</div>
+
+		<div id="container">
+			<div data-example="5">
+			</div>
+
+			<p><a href="https://github.com/Leimi/drawingboard.js#drawingboardjs">Detailed information is available in the <strong>readme</strong> on Github.</a></p>
+
+			<div class="example" data-example="1">
+				<h1>The default DrawingBoard</h1>
+				<div class="board" id="default-board"></div>
+			</div>
+
+		</div>
+
+		<script src="js/drawingboard.js"></script>
+		<script src="js/board.js"></script>
+		<script src="js/controls/control.js"></script>
+		<script src="js/controls/color.js"></script>
+		<script src="js/controls/drawingmode.js"></script>
+		<script src="js/controls/navigation.js"></script>
+		<script src="js/controls/size.js"></script>
+		<script src="js/controls/download.js"></script>
+		<script src="js/utils.js"></script>
+
+
+
+		<script data-example="1">
+			//create the drawingboard by passing it the #id of the wanted container
+      var mainRoom;
+      function onLoad() {
+        var url = 'https://goinstant.net/adamwdennis/hackathon';
+        var platform = new goinstant.Platform(url);
+
+        platform.connect(function(err, platform) {
+          if (err) {
+            console.log('could not connect:', err);
+            return;
+          }
+          mainRoom = platform.room('mainRoom');
+          mainRoom.join(function(err) {
+            if (err) {
+              console.log('Error joining the room:',err);
+              return;
+            }
+            // Create a new instance of the UserList component
+            var userList = new goinstant.widgets.UserList({ room: mainRoom });
+
+            // Initialize the UserList component
+            userList.initialize(function(err) {
+              // Now it should render on the page with any connected users
+            });
+            var defaultBoard = new DrawingBoard.Board('default-board', {
+              goinstant: {
+                room: mainRoom
+              }
+            });
+          });
+        });
+      }
+		</script>
+
+
+
+		<!-- an input[type=range] poyfill is more than recommanded if you want to use the default "size" control with the "range" type *on every browser*
+			the polyfill is loaded only if necessary via yepnope http://yepnopejs.com/
+
+			note this is totally not required if the size control is set to "auto" or "dropdown" - the control will work with every browser with an alternate view -->
+		<script src="yepnope.js"></script>
+		<script>
+			var iHasRangeInput = function() {
+				var inputElem  = document.createElement('input'),
+					smile = ':)',
+					docElement = document.documentElement,
+					inputElemType = 'range',
+					available;
+				inputElem.setAttribute('type', inputElemType);
+				available = inputElem.type !== 'text';
+				inputElem.value         = smile;
+				inputElem.style.cssText = 'position:absolute;visibility:hidden;';
+				if ( /^range$/.test(inputElemType) && inputElem.style.WebkitAppearance !== undefined ) {
+					docElement.appendChild(inputElem);
+					defaultView = document.defaultView;
+					available = defaultView.getComputedStyle &&
+						defaultView.getComputedStyle(inputElem, null).WebkitAppearance !== 'textfield' &&
+						(inputElem.offsetHeight !== 0);
+					docElement.removeChild(inputElem);
+				}
+				return !!available;
+			};
+
+			yepnope({
+				test : iHasRangeInput(),
+				nope : ['fd-slider.min.css', 'fd-slider.min.js'],
+				callback: function(id, testResult) {
+					if("fdSlider" in window && typeof (fdSlider.onDomReady) != "undefined") {
+						try { fdSlider.onDomReady(); } catch(err) {}
+					}
+				}
+			});
+		</script>
+
+
+		<!-- totally not drawingboard-related code -->
+		<script src="prism.js"></script>
+		<script src="script.js"></script>
+	</body>
+</html>
