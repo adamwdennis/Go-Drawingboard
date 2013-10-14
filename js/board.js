@@ -16,9 +16,6 @@
 DrawingBoard.Board = function(id, opts) {
 	this.opts = $.extend({}, DrawingBoard.Board.defaultOpts, opts);
 
-  if (!opts.goinstant)
-    throw new Error("opts.goinstant not defined");
-
   this.goinstant = {
     room: this.opts.goinstant.room,
     userKey: this.opts.goinstant.userKey,
