@@ -64,32 +64,28 @@ DrawingBoard.Board = function(id, opts) {
 
   this.initUserData(this.goinstant.userKey.name);
 
+  var self = this;
   // subscribe to events for all users
-  this.goinstant.room.users(function(err, userMap, keyMap) {
-    _.forEach(_.keys(userMap), function(curUserKey) {
-      if (this.goinstant.userKey.name !== keyMap[curUserKey].name) {
-        if (!this.userData[keyMap[curUserKey].name]) {
-          this.initUserData(keyMap[curUserKey].name);
-        }
-      }
-    }.bind(this));
-  }.bind(this));
-
-  this.goinstant.room.on('join', function(userObj) {
-    this.goinstant.room.users(function(err, userMap, keyMap) {
+  function initializeUserData() {
+    self.goinstant.room.users(function(err, userMap, keyMap) {
       _.forEach(_.keys(userMap), function(curUserKey) {
-        if (this.goinstant.userKey.name !== keyMap[curUserKey].name) {
-          if (!this.userData[keyMap[curUserKey].name]) {
-            this.initUserData(keyMap[curUserKey].name);
-          }
+        if (self.goinstant.userKey.name !== keyMap[curUserKey].name &&
+          !self.userData[keyMap[curUserKey].name]) {
+          self.initUserData(keyMap[curUserKey].name);
         }
-      }.bind(this));
-    }.bind(this));
-  }.bind(this));
+      });
+    });
+  }
 
-  this.goinstant.room.key('/history/length').on('set', {
+  initializeUserData();
+
+  self.goinstant.room.on('join', function(userObj) {
+    initializeUserData();
+  });
+
+  self.goinstant.room.key('/history/length').on('set', {
     listener: function(val, context) {
-      this.goinstant.room.key('/history').get(function(err, val) {
+      self.goinstant.room.key('/history').get(function(err, val) {
         if (err) {
           throw err;
         }
@@ -97,40 +93,40 @@ DrawingBoard.Board = function(id, opts) {
         _.forEach(val, function(item) {
           img += item;
         });
-        this.setImg(img);
-      }.bind(this));
-    }.bind(this)
+        self.setImg(img);
+      });
+    }
   });
 
-  this.goinstant.channels.isDrawing.on('message', function(msg) {
-    this.userData[msg.username].isDrawing = msg.val;
-  }.bind(this));
-  this.goinstant.channels.isMouseHovering.on('message', function(msg) {
-    this.userData[msg.username].isMouseHovering = msg.val;
-  }.bind(this));
-  this.goinstant.channels.coordsCurrent.on('message', function(msg) {
-    this.userData[msg.username].coords.current = msg.val;
-  }.bind(this));
-  this.goinstant.channels.coordsOld.on('message', function(msg) {
-    this.userData[msg.username].coords.old = msg.val;
-  }.bind(this));
-  this.goinstant.channels.coordsOldMid.on('message', function(msg) {
-    this.userData[msg.username].coords.oldMid = msg.val;
-  }.bind(this));
-  this.goinstant.channels.coordsFill.on('message', function(msg) {
-    this.userData[msg.username].coords.fill = msg.val;
-    this.fill({
+  self.goinstant.channels.isDrawing.on('message', function(msg) {
+    self.userData[msg.username].isDrawing = msg.val;
+  });
+  self.goinstant.channels.isMouseHovering.on('message', function(msg) {
+    self.userData[msg.username].isMouseHovering = msg.val;
+  });
+  self.goinstant.channels.coordsCurrent.on('message', function(msg) {
+    self.userData[msg.username].coords.current = msg.val;
+  });
+  self.goinstant.channels.coordsOld.on('message', function(msg) {
+    self.userData[msg.username].coords.old = msg.val;
+  });
+  self.goinstant.channels.coordsOldMid.on('message', function(msg) {
+    self.userData[msg.username].coords.oldMid = msg.val;
+  });
+  self.goinstant.channels.coordsFill.on('message', function(msg) {
+    self.userData[msg.username].coords.fill = msg.val;
+    self.fill({
       coords: msg.val,
-      strokeStyle: this.userData[msg.username].strokeStyle,
+      strokeStyle: self.userData[msg.username].strokeStyle,
       isRemoteEvent: true
     });
-  }.bind(this));
-  this.goinstant.channels.lineWidth.on('message', function(msg) {
-    this.userData[msg.username].lineWidth = msg.val;
-  }.bind(this));
-  this.goinstant.channels.strokeStyle.on('message', function(msg) {
-    this.userData[msg.username].strokeStyle = msg.val;
-  }.bind(this));
+  });
+  self.goinstant.channels.lineWidth.on('message', function(msg) {
+    self.userData[msg.username].lineWidth = msg.val;
+  });
+  self.goinstant.channels.strokeStyle.on('message', function(msg) {
+    self.userData[msg.username].strokeStyle = msg.val;
+  });
 
 	if (!this.ctx) {
 		if (this.opts.errorMessage)
@@ -449,6 +445,7 @@ DrawingBoard.Board.prototype = {
 			this.ev.trigger('board:save' + this.storage.charAt(0).toUpperCase() + this.storage.slice(1), this.getImg());
 		}
 
+    var self = this;
     var historyKey = this.goinstant.room.key('/history');
     var chunksArr = this.splitStringIntoChunks(this.getImg(), 10000);
     historyKey.remove(function(err) {
