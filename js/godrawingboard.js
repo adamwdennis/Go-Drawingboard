@@ -17,7 +17,7 @@ var godrawingboard = (function() {
   ];
 
   var ORIGIN_GO_DRAWINGBOARD = 'godrawingboard';
-  var GO_DRAWINGBOARD_ID = 'go_reveal_room';
+  var GO_DRAWINGBOARD_ID = 'go_drawingboard_room';
   var GO_DRAWINGBOARD_USER_NAME = 'go_drawingboard_user_name';
   var QUERY_REGEX = new RegExp('\\?(.*)\\b' + GO_DRAWINGBOARD_ID + '=([^&#\/]*)(.*)');
 
