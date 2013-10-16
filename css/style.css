@@ -55,6 +55,14 @@ h1 {
         top: 3px;
       }
 
+h2 {
+  position: fixed;
+  bottom: 0;
+  left: 100px;
+  color: #FFF;
+  font-weight: 100;
+}
+
 .drawing-board-controls {
   left: auto !important;
   height: 40px;

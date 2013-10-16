@@ -27,6 +27,15 @@ p {
   color: #C8D5E7;
   font-size: 16px;
   margin-bottom: 2em;
+  line-height: 1.5;
+}
+
+p a {
+  color: #FFF;
+}
+
+p a:hover {
+  text-decoration: none;
 }
 
 h1 {
