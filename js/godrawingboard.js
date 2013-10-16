@@ -40,7 +40,6 @@ var godrawingboard = (function() {
       // join the room and gain access to the drawingboard stat information
       function(next) {
         drawingboardRoom = platform.room(roomName);
-        console.log('Joined room: "'  + roomName + '"');
         drawingboardRoom.join(next);
       },
 
