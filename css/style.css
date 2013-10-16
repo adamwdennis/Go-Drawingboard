@@ -2,11 +2,11 @@ body {
   background: #10416F;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
-  text-align: center;
 }
 
 #container {
   margin: 3em auto;
+  text-align: center;
 }
 
 .board {
