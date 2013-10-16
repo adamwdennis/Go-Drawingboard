@@ -7,14 +7,12 @@ var godrawingboard = (function() {
     ['https://cdn.goinstant.net/v1/platform.min.js', 'goinstant'],  //PLATFORM
     ['https://cdn.goinstant.net/widgets/user-list/latest/user-list.min.js', 'goinstant.widgets.UserList'],  // USER_LIST
     ['https://cdn.goinstant.net/widgets/click-indicator/latest/click-indicator.min.js', 'goinstant.widgets.ClickIndicator'],  // CLICK_INDICATOR
-    ['https://cdn.goinstant.net/widgets/user-colors/latest/user-colors.min.js', 'goinstant.widgets.UserColors'],  // USER_COLORS
-    ['https://cdn.goinstant.net/widgets/notifications/latest/notifications.min.js', 'goinstant.widgets.Notifications']  // NOTIFICATIONS
+    ['https://cdn.goinstant.net/widgets/user-colors/latest/user-colors.min.js', 'goinstant.widgets.UserColors']  // USER_COLORS
   ];
 
   var CSS_URLS = [
     'https://cdn.goinstant.net/widgets/user-list/latest/user-list.css',
-    'https://cdn.goinstant.net/widgets/click-indicator/latest/click-indicator.css',
-    'https://cdn.goinstant.net/widgets/notifications/latest/notifications.css'
+    'https://cdn.goinstant.net/widgets/click-indicator/latest/click-indicator.css'
   ];
 
   var ORIGIN_GO_DRAWINGBOARD = 'godrawingboard';
@@ -31,9 +29,7 @@ var godrawingboard = (function() {
 
   function connectToPlatform(cb) {
     var platform = new goinstant.Platform(GO_DRAWINGBOARD_APP, window.go_drawingboard_demo_options);
-    var notifications;
 
-    console.log("Connecting as", window.go_drawingboard_demo_options);
     async.series([
       // connect to GoInstant platform
 
@@ -55,12 +51,6 @@ var godrawingboard = (function() {
         drawingboardRoom.join(next);
       },
 
-      // subscribe to any notifications in the presentaiton room.
-      function(next) {
-        notifications = new goinstant.widgets.Notifications();
-        notifications.subscribe(drawingboardRoom, next);
-      },
-
       // set up the user's display name
       function(next) {
         var publishOpts = {
@@ -80,8 +70,7 @@ var godrawingboard = (function() {
               return next(err);
             }
 
-            // publish a notification of the new user
-            notifications.publish(publishOpts, next);
+            return next();
           });
         });
       },
@@ -122,7 +111,6 @@ var godrawingboard = (function() {
           if (err) {
             throw err;
           }
-          console.log("Current user is:",userKeyObj);
           var defaultBoard = new DrawingBoard.Board('default-board', {
             goinstant: {
               room: drawingboardRoom,
@@ -268,7 +256,7 @@ var godrawingboard = (function() {
     // we might have to reload if the we are passed a room name so do not
     // load the rest of the resources if the page is being reloaded.
     roomName = getOrSetRoomCookie();
-    userName = window.go_drawingboard_demo_options.guestId == 1 ? "Bob" : "Mary";
+    userName = window.go_drawingboard_demo_options.guestId == 1 ? "User 1" : "User 2";
 
     loadResources(function() {
 
