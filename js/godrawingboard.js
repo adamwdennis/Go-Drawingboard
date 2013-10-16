@@ -51,16 +51,6 @@ var godrawingboard = (function() {
 
       // set up the user's display name
       function(next) {
-        if (alreadyLoaded) {
-          return next();
-        }
-
-        var publishOpts = {
-          room: drawingboardRoom,
-          type: 'success',
-          message: userName + ' has joined.'
-        };
-
         drawingboardRoom.user(function(err, user, userKey) {
           if (err) {
             return next(err);
@@ -71,6 +61,16 @@ var godrawingboard = (function() {
             if (err) {
               return next(err);
             }
+
+            if (alreadyLoaded) {
+              return next();
+            }
+
+            var publishOpts = {
+              room: drawingboardRoom,
+              type: 'success',
+              message: userName + ' has joined.'
+            };
 
             // publish a notification of the new user
             notifications.publish(publishOpts, next);
