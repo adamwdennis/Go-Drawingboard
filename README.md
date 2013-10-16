@@ -31,3 +31,7 @@ In the full application you can share your whiteboard with others easily and col
 MIT licensed
 
 Copyright (c) 2013 Adam W. Dennis
+
+---
+
+Want to build your own realtime, collaborative apps? [Sign up for GoInstant](https://goinstant.com) (it's free!)
