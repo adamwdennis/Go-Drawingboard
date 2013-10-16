@@ -382,12 +382,16 @@ DrawingBoard.Board.prototype = {
 
 	goBackInHistory: function() {
 		this._goThroughHistory(false);
-    this.saveWebStorage();
+    setTimeout(function(){
+      this.saveWebStorage();
+    }.bind(this), 1);
 	},
 
 	goForthInHistory: function() {
 		this._goThroughHistory(true);
-    this.saveWebStorage();
+    setTimeout(function(){
+      this.saveWebStorage();
+    }.bind(this), 1);
 	},
 
 
