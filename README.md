@@ -1,5 +1,4 @@
 # Go-Drawingboard
-=======
 
 ![](http://dl.dropbox.com/u/89302369/Screenshots/g4fyiqhjs4zz.png)
 
@@ -7,6 +6,7 @@ Go-Drawingboard is a multi-user whiteboard, powered by [GoInstant](http://www.go
 based on [drawingboard.js](https://github.com/Leimi/drawingboard.js).
 
 Go-Drawingboard makes it super easy to draw with friends or colleagues in a realtime environment.
+
 We use drawingboard.js for the core whiteboard app, and then integrated GoInstant into it for the
 realtime, multi-user collaboration.
 
