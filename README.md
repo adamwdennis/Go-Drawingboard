@@ -1,7 +1,5 @@
 # Go-Drawingboard
 
-![](http://dl.dropbox.com/u/89302369/Screenshots/g4fyiqhjs4zz.png)
-
 Go-Drawingboard is a multi-user whiteboard, powered by [GoInstant](http://www.goinstant.com/) and
 based on [drawingboard.js](https://github.com/Leimi/drawingboard.js).
 
