@@ -1,0 +1,65 @@
+body {
+  background: #10416F;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+}
+
+.board {
+  margin: 0 auto;
+  width: 300px;
+  height: 300px;
+}
+
+#default-board {
+  width: 960px;
+  height: 550px;
+  border-radius: 3px;
+  background: #ddd;
+  box-shadow: 0 3px 11px 2px rgba(0,0,0,.3);
+}
+
+h1 {
+  color: white;
+  margin-bottom: 1.5em;
+  font-weight: 100;
+  letter-spacing: -1px;
+  margin-left: -.5em;
+}
+
+  h1 a {
+    color: white;
+    text-decoration: none;
+  }
+
+    h1 a:hover {
+      color: #3CDD3C;
+    }
+
+    h1 a img {
+      position: relative;
+      top: 6px;
+      left: 3px;
+      -webkit-transition: all .15s ease-in-out;
+      -moz-transition: all .15s ease-in-out;
+      -ms-transition: all .15s ease-in-out;
+      -o-transition: all .15s ease-in-out;
+      transition: all .15s ease-in-out;
+    }
+
+      h1 a:hover img {
+        top: 3px;
+      }
+
+.drawing-board-controls {
+  left: auto !important;
+  height: 40px;
+}
+
+  .drawing-board-control {
+    padding-top: 7px;
+  }
+
+  .drawing-board-control-colors {
+    padding-top: 9px;
+  }
