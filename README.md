@@ -18,7 +18,7 @@ A demo with two canvases, where you can draw in one and it will appear, in realt
 
 ---
 
-## [**Full App (click here)**](http://adamwdennis.github.io/Go-Drawingboard/demo.html)
+## [**Full App (click here)**](http://adamwdennis.github.io/Go-Drawingboard)
 
 In the full application you can share your whiteboard with others easily and collaborate together.
 
