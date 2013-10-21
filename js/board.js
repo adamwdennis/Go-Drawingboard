@@ -128,24 +128,6 @@ DrawingBoard.Board = function(id, opts) {
   self.goinstant.room.on('join', function(userObj) {
     self.initUserData('/.users/' + userObj.id, userObj);
   });
-
-  /*
-  self.goinstant.room.key('/history/length').on('set', {
-    listener: function(val, context) {
-      self.goinstant.room.key('/history').get(function(err, val) {
-        if (err) {
-          throw err;
-        }
-        var img = "";
-        _.forEach(val, function(item) {
-          img += item;
-        });
-        self.setImg(img);
-      });
-    }
-  });
-  */
-
 };
 
 
