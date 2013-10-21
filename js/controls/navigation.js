@@ -24,9 +24,19 @@ DrawingBoard.Control.Navigation = DrawingBoard.Control.extend({
 					$back.removeAttr('disabled');
 			}, this));
 			this.$el.on('click', '.drawing-board-control-navigation-back', $.proxy(function(e) {
-				this.board.goBackInHistory();
+        this.board.goinstant.channels.navBackward.message('navBackward', function(err) {
+          if (err) {
+            throw err;
+          }
+          this.board.goBackInHistory();
+        }.bind(this));
 				e.preventDefault();
 			}, this));
+      this.board.goinstant.channels.navBackward.on('message', function(msg) {
+        if (msg == 'navBackward') {
+          this.board.goBackInHistory();
+        }
+      }.bind(this));
 		}
 
 		if (this.opts.forward) {
@@ -38,16 +48,36 @@ DrawingBoard.Control.Navigation = DrawingBoard.Control.extend({
 					$forward.removeAttr('disabled');
 			}, this));
 			this.$el.on('click', '.drawing-board-control-navigation-forward', $.proxy(function(e) {
-				this.board.goForthInHistory();
+        this.board.goinstant.channels.navForward.message('navForward', function(err) {
+          if (err) {
+            throw err;
+          }
+          this.board.goForthInHistory();
+        });
 				e.preventDefault();
 			}, this));
+      this.board.goinstant.channels.navForward.on('message', function(msg) {
+        if (msg == 'navForward') {
+          this.board.goForthInHistory();
+        }
+      }.bind(this));
 		}
 
 		if (this.opts.reset) {
 			this.$el.on('click', '.drawing-board-control-navigation-reset', $.proxy(function(e) {
-				this.board.reset({ background: true });
+        this.board.goinstant.channels.reset.message('reset', function(err) {
+          if (err) {
+            throw err;
+          }
+          this.board.reset({ background: true });
+        }.bind(this));
 				e.preventDefault();
 			}, this));
+      this.board.goinstant.channels.reset.on('message', function(msg) {
+        if (msg == 'reset') {
+          this.board.reset({ background: true });
+        }
+      }.bind(this));
 		}
 	}
 });

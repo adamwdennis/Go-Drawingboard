@@ -43,7 +43,17 @@ var godrawingboard = (function() {
         drawingboardRoom.join(next);
       },
 
-      // subscribe to any notifications in the presentaiton room.
+      // select a colour for the current user
+      function(next) {
+        var opts = {
+          room: drawingboardRoom
+        };
+
+        var userColors = new goinstant.widgets.UserColors(opts);
+        userColors.choose(next);
+      },
+
+      // subscribe to any notifications in the drawingboard room.
       function(next) {
         notifications = new goinstant.widgets.Notifications();
         notifications.subscribe(drawingboardRoom, next);
@@ -76,16 +86,6 @@ var godrawingboard = (function() {
             notifications.publish(publishOpts, next);
           });
         });
-      },
-
-      // select a colour for the current user
-      function(next) {
-        var opts = {
-          room: drawingboardRoom
-        };
-
-        var userColors = new goinstant.widgets.UserColors(opts);
-        userColors.choose(next);
       },
 
       // initialize the user list
