@@ -82,9 +82,6 @@ DrawingBoard.Board = function(id, opts) {
       self.userData[msg.username].isMouseHovering = msg.val.isMouseHovering;
     });
     channels.currentCoords.on('message', function(msg) {
-      if (!self.userData[msg.username]) {
-        console.log("ERROR: ", msg.username, self.userData);
-      }
       self.userData[msg.username].coords.current = msg.val;
     });
     channels.fill.on('message', function(msg) {
@@ -123,11 +120,6 @@ DrawingBoard.Board = function(id, opts) {
     this.initDropEvents();
     this.initDrawEvents();
   }.bind(this));
-  /*
-  this.goinstant.room.user(this.goinstant.userKey.name).get(function(err, val, context) {
-    this.initUserData(this.goinstant.userKey.name, val);
-  });
-  */
 
   // subscribe to events for all users
   function initializeUserData() {
@@ -135,17 +127,6 @@ DrawingBoard.Board = function(id, opts) {
 
   self.goinstant.room.on('join', function(userObj) {
     self.initUserData('/.users/' + userObj.id, userObj);
-    /*
-    self.goinstant.room.users(function(err, userMap, keyMap) {
-      console.log(userMap, keyMap);
-      _.forEach(_.keys(userMap), function(curUserKey) {
-        if (self.goinstant.userKey.name !== keyMap[curUserKey].name && !self.userData[keyMap[curUserKey].name]) {
-          console.log("Creating new listeners for:", keyMap[curUserKey].name);
-          self.initUserData(keyMap[curUserKey].name, userMap[curUserKey]);
-        }
-      });
-    });
-    */
   });
 
   /*
@@ -194,7 +175,6 @@ DrawingBoard.Board.prototype = {
   setCursorColor: function(userName, color) {
     var shortUserName = userName.substr("/.users/guest:".length);
     var cursorId = "cursor-"+ shortUserName;
-    console.log("userObj.avatarColor:", color);
     var r = parseInt(color.substr(1, 2), 16);
     var g = parseInt(color.substr(3, 2), 16);
     var b = parseInt(color.substr(5, 2), 16);
@@ -227,7 +207,6 @@ DrawingBoard.Board.prototype = {
     };
 
     if (userObj.avatarColor) {
-      console.log("Setting", userObj.avatarColor, " for username", userName, userObj);
       this.setCursorColor(userName, userObj.avatarColor);
     } else {
       this.goinstant.room.key(userName).key('/avatarColor').on('set', function(val) {
@@ -629,7 +608,7 @@ DrawingBoard.Board.prototype = {
         if (err) {
           throw err;
         }
-        this.goinstant.room.key(this.goinstant.userKey.name).set(this.userData[userName]);
+        this.goinstant.room.key(this.goinstant.userKey.name).set(this.userData[this.goinstant.userKey.name]);
       }.bind(this));
 
       this.userData[this.goinstant.userKey.name].strokeStyle = this.ctx.strokeStyle;
@@ -671,7 +650,7 @@ DrawingBoard.Board.prototype = {
       if (err) {
         throw err;
       }
-      this.goinstant.room.key(this.goinstant.userKey.name).set(this.userData[userName]);
+      this.goinstant.room.key(this.goinstant.userKey.name).set(this.userData[this.goinstant.userKey.name]);
     }.bind(this));
 	},
 
@@ -789,7 +768,7 @@ DrawingBoard.Board.prototype = {
           throw err;
         }
         this.userData[this.goinstant.userKey.name].isDrawing = false;
-        this.goinstant.room.key(this.goinstant.userKey.name).key('data').set(this.userData[userName]);
+        this.goinstant.room.key(this.goinstant.userKey.name).key('data').set(this.userData[this.goinstant.userKey.name]);
       }.bind(this));
 		}, this));
 
@@ -831,16 +810,6 @@ DrawingBoard.Board.prototype = {
         this.ctx.moveTo(currentMid.x, currentMid.y);
         this.ctx.quadraticCurveTo(currentUserData.coords.old.x, currentUserData.coords.old.y, currentUserData.coords.oldMid.x, currentUserData.coords.oldMid.y);
         this.ctx.stroke();
-        /*
-        console.log(
-          "CurrentMid(" + currentMid.x + "," + currentMid.y + ")",
-          "old(" + currentUserData.coords.old.x+","+currentUserData.coords.old.y+")",
-          "oldMid(" + currentUserData.coords.oldMid.x+","+currentUserData.coords.oldMid.y+")",
-          "current(" + currentUserData.coords.current.x + ","+currentUserData.coords.current.y+"),",
-          "strokeStyle(" + currentUserData.strokeStyle + "),",
-          "lineWidth(" + currentUserData.lineWidth + ")"
-        );
-        */
       }
       currentUserData.coords.oldMid = currentMid;
       currentUserData.coords.old = currentUserData.coords.current;
@@ -862,7 +831,6 @@ DrawingBoard.Board.prototype = {
       oldMid: this._getMidInputCoords(coords, coords),
       isDrawing: true
     };
-    //console.log(newValues.current.x, newValues.current.y, newValues.oldMid.x, newValues.oldMid.y);
 
     async.series([
       channels.currentCoords.message.bind(channels.currentCoords,{
