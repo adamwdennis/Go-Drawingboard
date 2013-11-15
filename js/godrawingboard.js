@@ -1,6 +1,6 @@
 var godrawingboard = (function() {
   var ASYNC_URL = 'https://cdnjs.cloudflare.com/ajax/libs/async/0.2.7/async.min.js';
-  var GO_DRAWINGBOARD_APP = 'https://goinstant.net/GoDrawingBoard.JS/GoDrawingBoard.JS';
+  var GO_DRAWINGBOARD_APP = 'https://goinstant.net/GoDrawingBoard.JS/github.io';
 
   var SCRIPT_URLS = [
     ['https://cdn.goinstant.net/v1/platform.min.js', 'goinstant'],  //PLATFORM
