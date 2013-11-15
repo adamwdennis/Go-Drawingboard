@@ -1,6 +1,6 @@
 var godrawingboard = (function() {
   var ASYNC_URL = 'https://cdnjs.cloudflare.com/ajax/libs/async/0.2.7/async.min.js';
-  var GO_DRAWINGBOARD_APP = 'https://goinstant.net/GoDrawingBoard.JS/GoDrawingBoard.JS';
+  var GO_DRAWINGBOARD_APP = 'https://goinstant.net/GoDrawingBoard.JS/github.io';
   var COOKIE_NAME_GO_DRAWINGBOARD_DEMO = 'go-drawingboard-demo';
 
   var SCRIPT_URLS = [
