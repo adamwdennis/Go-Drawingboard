@@ -65,9 +65,11 @@ DrawingBoard.Board = function(id, opts) {
 	this.ctx = this.canvas && this.canvas.getContext && this.canvas.getContext('2d') ? this.canvas.getContext('2d') : null;
 	this.color = this.opts.color;
 
-  self.goinstant.room.users(function(err, userMap, keyMap) {
-    _.forEach(_.keys(userMap), function(curUserKey) {
-      self.initUserData(keyMap[curUserKey].name, userMap[curUserKey]);
+  self.goinstant.room.users.get(function(err, usersObj, contextObj) {
+    _.forEach(_.keys(usersObj), function(curUserKey) {
+      var userKey = usersObj[curUserKey];
+      var userName = '/.users/' + userKey.id;
+      self.initUserData(userName, userKey);
     });
     var channels = self.goinstant.channels;
 
