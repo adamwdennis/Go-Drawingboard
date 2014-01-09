@@ -102,16 +102,11 @@ var godrawingboard = (function() {
       },
 
       function(next) {
-        roomObj.self().get(function(err, val, context) {
-          if (err) {
-            throw err;
+        var defaultBoard = new DrawingBoard.Board('default-board', {
+          goinstant: {
+            room: roomObj,
+            userKey: roomObj.self()
           }
-          var defaultBoard = new DrawingBoard.Board('default-board', {
-            goinstant: {
-              room: roomObj,
-              userKey: roomObj.self()
-            }
-          });
         });
         next();
       },
